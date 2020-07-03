@@ -1,5 +1,5 @@
-include ':library-material'
-include ':library-imageview:glide'
-include ':library'
+include ':extension-material'
+include ':extension-glide'
+include ':extension'
 include ':app'
 rootProject.name = "android-extension"
