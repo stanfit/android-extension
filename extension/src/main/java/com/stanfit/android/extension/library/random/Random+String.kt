@@ -1,26 +1,28 @@
+package com.stanfit.android.extension.library.random
+
 import kotlin.random.Random
 
 /**
- * 大文字アルファベット
+ * large characters.
  */
 const val UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 /**
- * 小文字アルファベット
+ * small characters.
  */
 const val LOWER_ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 
 /**
- * 数字
+ * number characters.
  */
 const val NUMBER = "0123456789"
 
 /**
- * ランダムな文字列を生成
+ * Create random characters.
  *
- * @param length 文字列の長さ
- * @param symbols 文字列のバリエーション
- * @return ランダムな文字列
+ * @param length length
+ * @param symbols including characters
+ * @return random characters.
  */
 fun Random.nextString(
     length: Int,
