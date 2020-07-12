@@ -6,14 +6,14 @@ import android.view.View
  * Switch visible or gone
  */
 fun View.toggleVisibleOrGone() {
-    visibility = if (isShow()) View.GONE else View.VISIBLE
+    visibility = if (isVisible()) View.GONE else View.VISIBLE
 }
 
 /**
  * Switch visible or invisible
  */
 fun View.toggleVisibleOrInvisible() {
-    visibility = if (isShow()) View.INVISIBLE else View.VISIBLE
+    visibility = if (isVisible()) View.INVISIBLE else View.VISIBLE
 }
 
 /**
@@ -42,15 +42,24 @@ fun View.toGone() {
  *
  * @return Boolean
  */
-fun View.isShow(): Boolean {
+fun View.isVisible(): Boolean {
     return visibility == View.VISIBLE
 }
 
 /**
- * Check view is not visible.
+ * Check view is invisible.
  *
  * @return Boolean
  */
-fun View.isHide(): Boolean {
-    return visibility == View.GONE || visibility == View.INVISIBLE
+fun View.isInvisible(): Boolean {
+    return visibility == View.INVISIBLE
+}
+
+/**
+ * Check view is gone.
+ *
+ * @return Boolean
+ */
+fun View.isGone(): Boolean {
+    return visibility == View.GONE
 }
