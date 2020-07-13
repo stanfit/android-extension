@@ -1,67 +1,68 @@
 package com.stanfit.android.extension.library.context
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 
 /**
- * Stringリソースを取得
+ * Get string resource.
  *
- * @param stringRes リソースID
+ * @param resId resource id.
  * @return String
  */
-fun Context.string(@StringRes stringRes: Int): String {
-    return getString(stringRes)
+fun Context.string(@StringRes resId: Int): String {
+    return getString(resId)
 }
 
 /**
- * Stringリソースを取得
+ * Get string resource.
  *
- * @param stringRes リソースID
+ * @param resId resource id.
  * @param formats 代入する文字
  * @return String
  */
-fun Context.string(@StringRes stringRes: Int, vararg formats: String): String {
-    return getString(stringRes, formats)
+fun Context.string(@StringRes resId: Int, vararg formats: String): String {
+    return getString(resId, formats)
 }
 
 /**
- * Colorリソースを取得
+ * Get color resource.
  *
- * @param colorRes リソースID
+ * @param resId resource id.
  * @return Int
  */
-fun Context.color(@ColorRes colorRes: Int): Int {
-    return ContextCompat.getColor(this, colorRes)
+fun Context.color(@ColorRes resId: Int): Int {
+    return ContextCompat.getColor(this, resId)
 }
 
 /**
- * Booleanリソースを取得
+ * Get boolean resource.
  *
- * @param boolRes リソースID
+ * @param resId resource id.
  * @return Boolean
  */
-fun Context.bool(@BoolRes boolRes: Int): Boolean {
-    return resources.getBoolean(boolRes)
+fun Context.bool(@BoolRes resId: Int): Boolean {
+    return resources.getBoolean(resId)
 }
 
 /**
- * Intリソースを取得
+ * Get integer resource.
  *
- * @param integerRes リソースID
+ * @param resId resource id.
  * @return Int
  */
-fun Context.integer(@IntegerRes integerRes: Int): Int {
-    return resources.getInteger(integerRes)
+fun Context.integer(@IntegerRes resId: Int): Int {
+    return resources.getInteger(resId)
 }
 
 /**
- * Drawableリソースを取得
+ * Get drawable resource.
  *
- * @param drawableRes リソースID
+ * @param resId resource id.
  * @return Drawable
  */
-fun Context.drawable(@DrawableRes drawableRes: Int): Drawable {
-    return ContextCompat.getDrawable(this, drawableRes)!!
+fun Context.drawable(@DrawableRes resId: Int): Drawable {
+    return ContextCompat.getDrawable(this, resId)!!
 }
