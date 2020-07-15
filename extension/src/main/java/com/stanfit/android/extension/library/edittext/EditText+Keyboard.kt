@@ -1,13 +1,13 @@
-package com.stanfit.android.extension.library.view
+package com.stanfit.android.extension.library.edittext
 
 import android.content.Context
-import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 
 /**
  * Hide Keyboard and clear focus.
  */
-fun View.hideKeyboard() {
+fun EditText.hideKeyboard() {
     val manager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     manager.hideSoftInputFromWindow(windowToken, 0)
     clearFocus()
@@ -16,7 +16,7 @@ fun View.hideKeyboard() {
 /**
  * Show Keyboard and request focus.
  */
-fun View.showKeyboard() {
+fun EditText.showKeyboard() {
     if (requestFocus()) {
         val manager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         manager.toggleSoftInput(
