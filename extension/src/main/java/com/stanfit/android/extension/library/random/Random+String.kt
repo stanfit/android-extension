@@ -5,17 +5,17 @@ import kotlin.random.Random
 /**
  * large characters.
  */
-const val UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+private const val UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 /**
  * small characters.
  */
-const val LOWER_ALPHABET = "abcdefghijklmnopqrstuvwxyz"
+private const val LOWER_ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 
 /**
  * number characters.
  */
-const val NUMBER = "0123456789"
+private const val NUMBER = "0123456789"
 
 /**
  * Create random characters.
