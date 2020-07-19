@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
 /**
- * Observes changes in LiveData. If it is null, it does not notify.
+ * Observes changes in the LiveData; If it is null, it does not notify.
  *
  * @param T Type
  * @param owner LifecycleOwner
@@ -23,7 +23,7 @@ fun <T> LiveData<T>.observeNotNull(owner: LifecycleOwner, observer: (T) -> Unit)
 }
 
 /**
- * Observes changes in LiveData. If it is null, it notify.
+ * Observes changes in the LiveData; If it is null, it notify.
  *
  * @param T Type
  * @param owner LifecycleOwner
@@ -40,7 +40,8 @@ fun <T> LiveData<T>.observeOrNull(owner: LifecycleOwner, observer: (T?) -> Unit)
 }
 
 /**
- * Observes changes in LiveData. If it is null, it does not notify. And only changed previous values.
+ * Observes changes in the LiveData; notifies if it is not null.
+ * Notifies only when the value has been changed.
  *
  * @param T Type
  * @param owner LifecycleOwner
@@ -60,7 +61,8 @@ fun <T> LiveData<T>.observeOnChangedNotNull(owner: LifecycleOwner, observer: (T)
 }
 
 /**
- * Observes changes in LiveData. If it is null, it notify. And only changed previous values.
+ * Observes changes in the LiveData; notifies if it is null.
+ * Notifies only when the value has been changed.
  *
  * @param T Type
  * @param owner LifecycleOwner
