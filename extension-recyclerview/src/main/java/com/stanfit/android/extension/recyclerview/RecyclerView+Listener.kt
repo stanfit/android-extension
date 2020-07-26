@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @param bloc Position Change Listener.
  */
 inline fun RecyclerView.setOnItemPositionChangeListener(crossinline bloc: (Int) -> Unit) {
-    val manager = layoutManager
+    val manager = layoutManager ?: throw IllegalStateException("not found layout manager.")
     if (manager is LinearLayoutManager) {
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/extension-glide" />
             <option value="$PROJECT_DIR$/extension-lifecycle" />
             <option value="$PROJECT_DIR$/extension-material" />
+            <option value="$PROJECT_DIR$/extension-recyclerview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
