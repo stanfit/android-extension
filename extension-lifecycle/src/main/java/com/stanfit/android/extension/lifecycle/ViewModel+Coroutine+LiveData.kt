@@ -1,9 +1,6 @@
 package com.stanfit.android.extension.lifecycle
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataScope
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import kotlin.experimental.ExperimentalTypeInference
 
 /**
@@ -16,4 +13,4 @@ import kotlin.experimental.ExperimentalTypeInference
 @OptIn(ExperimentalTypeInference::class)
 fun <T> ViewModel.viewModelLiveData(
     @BuilderInference block: suspend LiveDataScope<T>.() -> Unit
-): LiveData<T> = liveData(context = coroutineContext, block = block)
+): LiveData<T> = liveData(context = viewModelScope.coroutineContext, block = block)
