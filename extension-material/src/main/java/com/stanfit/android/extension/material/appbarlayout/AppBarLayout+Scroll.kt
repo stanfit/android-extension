@@ -8,7 +8,7 @@ import kotlin.math.abs
  *
  * @param bloc callback.
  */
-fun AppBarLayout.setOnChangedAppBarScrollStateListener(bloc: (AppBarLayoutScrollState) -> Unit) {
+inline fun AppBarLayout.setOnChangedAppBarScrollStateListener(crossinline bloc: (AppBarLayoutScrollState) -> Unit) {
     var pendingPercentage = 1.0f
     addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
         when (abs(verticalOffset)) {
