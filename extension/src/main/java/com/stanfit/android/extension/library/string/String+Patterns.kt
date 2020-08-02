@@ -1,15 +1,20 @@
 package com.stanfit.android.extension.library.string
 
-
 import android.util.Patterns
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 
 /**
  * Check web email.
  *
  * @return Boolean
  */
-fun String.isEmail(): Boolean {
-    return Patterns.EMAIL_ADDRESS.matcher(this).matches()
+@OptIn(ExperimentalContracts::class)
+fun String?.isEmail(): Boolean {
+    contract {
+        returns(true) implies (this@isEmail != null)
+    }
+    return this != null && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
 
 /**
@@ -17,8 +22,12 @@ fun String.isEmail(): Boolean {
  *
  * @return Boolean
  */
-fun String.isPhone(): Boolean {
-    return Patterns.PHONE.matcher(this).matches()
+@OptIn(ExperimentalContracts::class)
+fun String?.isPhone(): Boolean {
+    contract {
+        returns(true) implies (this@isPhone != null)
+    }
+    return this != null && Patterns.PHONE.matcher(this).matches()
 }
 
 /**
@@ -26,6 +35,10 @@ fun String.isPhone(): Boolean {
  *
  * @return Boolean
  */
-fun String.isWebUrl(): Boolean {
-    return Patterns.WEB_URL.matcher(this).matches()
+@OptIn(ExperimentalContracts::class)
+fun String?.isWebUrl(): Boolean {
+    contract {
+        returns(true) implies (this@isWebUrl != null)
+    }
+    return this != null && Patterns.WEB_URL.matcher(this).matches()
 }
