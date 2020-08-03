@@ -1,7 +1,7 @@
 include ':extension-lifecycle'
 include ':extension-recyclerview'
 include ':extension-material'
-include ':extension-glide'
+include ':extension-imageview-glide'
 include ':extension'
 include ':app'
 rootProject.name = "android-extension"
