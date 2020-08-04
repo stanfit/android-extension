@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/extension-lifecycle" />
             <option value="$PROJECT_DIR$/extension-material" />
             <option value="$PROJECT_DIR$/extension-recyclerview" />
+            <option value="$PROJECT_DIR$/extension-version" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
