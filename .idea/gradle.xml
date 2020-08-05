@@ -17,6 +17,8 @@
             <option value="$PROJECT_DIR$/extension-lifecycle" />
             <option value="$PROJECT_DIR$/extension-material" />
             <option value="$PROJECT_DIR$/extension-recyclerview" />
+            <option value="$PROJECT_DIR$/extension-time-java" />
+            <option value="$PROJECT_DIR$/extension-time-threeten" />
             <option value="$PROJECT_DIR$/extension-version" />
           </set>
         </option>
