@@ -1,6 +1,7 @@
 include ':extension-time-threeten'
 include ':extension-time-java'
 include ':extension-version'
+include ':extension-result'
 include ':extension-lifecycle'
 include ':extension-recyclerview'
 include ':extension-material'
