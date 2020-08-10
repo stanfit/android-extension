@@ -23,6 +23,26 @@ val Context.screenHeight: Int
     }
 
 /**
+ * Status bar height.
+ */
+val Context.statusBarHeight: Int
+    @Px
+    get() {
+        val resId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        return resources.getDimensionPixelSize(resId)
+    }
+
+/**
+ * Navigation bar height.
+ */
+val Context.navigationBarHeight: Int
+    @Px
+    get() {
+        val resId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        return resources.getDimensionPixelSize(resId)
+    }
+
+/**
  * Check screen direction.
  *
  * @return Boolean
