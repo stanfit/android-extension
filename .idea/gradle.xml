@@ -14,7 +14,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/extension" />
-            <option value="$PROJECT_DIR$/extension-glide" />
+            <option value="$PROJECT_DIR$/extension-imageview-glide" />
             <option value="$PROJECT_DIR$/extension-lifecycle" />
             <option value="$PROJECT_DIR$/extension-material" />
             <option value="$PROJECT_DIR$/extension-recyclerview" />
