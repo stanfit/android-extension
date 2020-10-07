@@ -1,6 +1,5 @@
 package com.stanfit.android.extension.library.view
 
-import android.os.Handler
 import android.view.View
 
 /**
@@ -10,7 +9,7 @@ import android.view.View
  */
 fun View.pauseClickTimer(delayMillis: Long = 500) {
     isClickable = false
-    Handler().postDelayed({ isClickable = true }, delayMillis)
+    postDelayed({ isClickable = true }, delayMillis)
 }
 
 /**
