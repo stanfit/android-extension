@@ -9,7 +9,7 @@ import com.xwray.groupie.GroupieViewHolder
 /**
  * Adapter of groupie
  */
-val groupAdapter = GroupAdapter<GroupieViewHolder>()
+val groupAdapter get() = GroupAdapter<GroupieViewHolder>()
 
 /**
  * Get adapter of groupie
