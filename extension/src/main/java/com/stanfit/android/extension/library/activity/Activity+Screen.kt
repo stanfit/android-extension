@@ -6,6 +6,18 @@ import android.graphics.Rect
 import android.util.Size
 
 /**
+ * Status bar size.
+ *
+ * example: 1080x24
+ */
+val Activity.statusBarSize: Size
+    get() {
+        val rect = Rect()
+        window.decorView.getWindowVisibleDisplayFrame(rect)
+        return Size(rect.width(), rect.top)
+    }
+
+/**
  * Screen content size.
  * Not include status bar and navigation bar.
  *
