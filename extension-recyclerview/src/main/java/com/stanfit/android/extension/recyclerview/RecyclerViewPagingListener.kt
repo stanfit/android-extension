@@ -7,24 +7,29 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 /**
  * RecyclerView Paging Listener
+ *
+ * @property initialPage initial paging index.
+ * @property visibleThreshold item count to prefetch.
+ * @property direction scroll direction.
  */
 class RecyclerViewPagingListener(
-    layoutManager: RecyclerView.LayoutManager,
-    direction: RecyclerViewPagingDirection
+    private val initialPage: Int = 0,
+    private val visibleThreshold: Int = 10,
+    private val direction: LoadOnScrollDirection = LoadOnScrollDirection.BOTTOM
 ) : RecyclerView.OnScrollListener() {
 
     /**
-     * Additional loading listener
+     * Additional Reading Listener.
      */
     private var onLoadMoreListener: ((page: Int, total: Int) -> Unit)? = null
 
     /**
-     * Number of pages currently loaded
+     * Number of pages currently loaded.
      */
-    private var pendingCurrentPage = 0
+    private var pendingCurrentPage = initialPage
 
     /**
-     * Number of items currently loaded
+     * Number of items currently loaded.
      */
     private var pendingTotalItemCount = 0
 
@@ -33,75 +38,37 @@ class RecyclerViewPagingListener(
      */
     private var loading = true
 
-    /**
-     * Direction to be detected
-     */
-    private val pendingDirection: RecyclerViewPagingDirection
-
-    /**
-     * LinearLayoutManager
-     */
-    private var pendingLinearLayoutManager: LinearLayoutManager? = null
-
-    /**
-     * GridLayoutManager
-     */
-    private var pendingGridLayoutManager: GridLayoutManager? = null
-
-    /**
-     * StaggeredGridLayoutManager
-     */
-    private var pendingStaggeredGridLayoutManager: StaggeredGridLayoutManager? = null
-
-    init {
-        // Do not cast onScrolled for performance
-        when (layoutManager) {
+    override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+        // ポジション計算
+        val lastVisibleItemPosition: Int
+        val firstVisibleItemPosition: Int
+        val totalItemCount: Int
+        when (val layoutManager = view.layoutManager) {
             is LinearLayoutManager -> {
-                pendingLinearLayoutManager = layoutManager
+                totalItemCount = layoutManager.itemCount
+                lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
             }
             is GridLayoutManager -> {
-                pendingGridLayoutManager = layoutManager
+                totalItemCount = layoutManager.itemCount
+                lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
             }
             is StaggeredGridLayoutManager -> {
-                pendingStaggeredGridLayoutManager = layoutManager
-            }
-            else -> {
-                throw IllegalArgumentException("unsupported this layout manager.")
-            }
-        }
-        pendingDirection = direction
-    }
-
-    override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-        var lastVisibleItemPosition = 0
-        var firstVisibleItemPosition = 0
-        var totalItemCount = 0
-        when {
-            pendingLinearLayoutManager != null -> {
-                val layoutManager = requireNotNull(pendingLinearLayoutManager)
-                totalItemCount = layoutManager.itemCount
-                lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-                firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-            }
-            pendingGridLayoutManager != null -> {
-                val layoutManager = requireNotNull(pendingGridLayoutManager)
-                totalItemCount = layoutManager.itemCount
-                lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-                firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-            }
-            pendingStaggeredGridLayoutManager != null -> {
-                val layoutManager = requireNotNull(pendingStaggeredGridLayoutManager)
                 val lastVisibleItemPositions = layoutManager.findLastVisibleItemPositions(null)
                 val firstVisibleItemPositions = layoutManager.findFirstVisibleItemPositions(null)
                 totalItemCount = layoutManager.itemCount
                 lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
                 firstVisibleItemPosition = getFirstVisibleItem(firstVisibleItemPositions)
             }
+            else -> return
         }
-        when (pendingDirection) {
-            RecyclerViewPagingDirection.BOTTOM -> {
+
+        // ロード判定
+        when (direction) {
+            LoadOnScrollDirection.BOTTOM -> {
                 if (totalItemCount < pendingTotalItemCount) {
-                    pendingCurrentPage = STARTING_PAGE_INDEX
+                    pendingCurrentPage = initialPage
                     pendingTotalItemCount = totalItemCount
                     if (totalItemCount == 0) {
                         loading = true
@@ -111,15 +78,15 @@ class RecyclerViewPagingListener(
                     loading = false
                     pendingTotalItemCount = totalItemCount
                 }
-                if (!loading && lastVisibleItemPosition + PREFETCH_ITEM_POSITION > totalItemCount) {
+                if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
                     pendingCurrentPage++
                     onLoadMoreListener?.invoke(pendingCurrentPage, totalItemCount)
                     loading = true
                 }
             }
-            RecyclerViewPagingDirection.TOP -> {
+            LoadOnScrollDirection.TOP -> {
                 if (totalItemCount < pendingTotalItemCount) {
-                    pendingCurrentPage = STARTING_PAGE_INDEX
+                    pendingCurrentPage = initialPage
                     pendingTotalItemCount = totalItemCount
                     if (totalItemCount == 0) {
                         loading = true
@@ -129,7 +96,7 @@ class RecyclerViewPagingListener(
                     loading = false
                     pendingTotalItemCount = totalItemCount
                 }
-                if (!loading && firstVisibleItemPosition < PREFETCH_ITEM_POSITION) {
+                if (!loading && firstVisibleItemPosition < visibleThreshold) {
                     pendingCurrentPage++
                     onLoadMoreListener?.invoke(pendingCurrentPage, totalItemCount)
                     loading = true
@@ -163,34 +130,45 @@ class RecyclerViewPagingListener(
     }
 
     /**
-     * Set additional loading listener.
+     * Set additional reading listener.
      *
-     * @param block Block syntax that tells you the current page count, the current item count
+     * @param block Block syntax to notify current page count, current item count.
      */
     fun setOnLoadMoreListener(block: (page: Int, total: Int) -> Unit) {
         onLoadMoreListener = block
     }
 
     /**
+     * Start
+     * Load explicitly
+     * Request again when displaying for the first time and when returning to screen.
+     */
+    fun load() {
+        onLoadMoreListener?.invoke(pendingCurrentPage, 0)
+    }
+
+    /**
      * Reset
+     * Performed during PullToRefresh, etc.
      */
     fun reset() {
-        pendingCurrentPage = 0
+        pendingCurrentPage = initialPage
         pendingTotalItemCount = 0
     }
 
-    companion object {
-        /**
-         * Start paged index.
-         */
-        private const val STARTING_PAGE_INDEX = 0
+    /**
+     * Rollback
+     * Performed when paging communication fails, etc.
+     */
+    fun rollback() {
+        pendingCurrentPage--
+        loading = false
+    }
 
-        /**
-         * Prefetch position
-         *
-         * When set to "5"
-         * If you have 100 items, it will start loading when you see 95.
-         */
-        private const val PREFETCH_ITEM_POSITION = 10
+    /**
+     * Scroll detection direction
+     */
+    enum class LoadOnScrollDirection {
+        TOP, BOTTOM
     }
 }

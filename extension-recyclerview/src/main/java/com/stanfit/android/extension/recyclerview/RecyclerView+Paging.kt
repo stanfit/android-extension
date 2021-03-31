@@ -10,16 +10,19 @@ private val pagingListeners = mutableMapOf<Int, RecyclerViewPagingListener>()
 /**
  * Add paging listener.
  *
+ * @param initialPage initial paging index.
+ * @param visibleThreshold item count to prefetch.
  * @param direction scroll direction.
- * @param block paging listener.
+ * @param block when load more, this block function called.
  */
 fun RecyclerView.addOnPagingListener(
-    direction: RecyclerViewPagingDirection,
+    initialPage: Int = 0,
+    visibleThreshold: Int = 10,
+    direction: RecyclerViewPagingListener.LoadOnScrollDirection = RecyclerViewPagingListener.LoadOnScrollDirection.BOTTOM,
     block: (page: Int, total: Int) -> Unit
 ) {
-    val manager = layoutManager ?: throw IllegalStateException("not found layout manager.")
     if (isNestedScrollingEnabled.not()) throw IllegalStateException("not supported nested scroll.")
-    val listener = RecyclerViewPagingListener(manager, direction)
+    val listener = RecyclerViewPagingListener(initialPage, visibleThreshold, direction)
     pagingListeners[id] = listener
     listener.setOnLoadMoreListener(block)
     addOnScrollListener(listener)
@@ -29,7 +32,7 @@ fun RecyclerView.addOnPagingListener(
  * Remove paging listener.
  */
 fun RecyclerView.removeOnPagingListener() {
-    val listener = pagingListeners[id] ?: throw IllegalStateException("not found paging listener.")
+    val listener = pagingListeners[id] ?: return
     pagingListeners.remove(id)
     listener.reset()
     removeOnScrollListener(listener)

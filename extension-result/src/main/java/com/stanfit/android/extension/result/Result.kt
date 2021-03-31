@@ -1,25 +1,9 @@
 package com.stanfit.android.extension.result
 
-import androidx.annotation.CheckResult
-
 /**
- * Result pattern class.　Respected [kotlin.Result] class.
+ * Result pattern class. Respected [kotlin.Result] class.
  */
 sealed class Result<T> {
-
-    /**
-     * Success data class.
-     *
-     * @param value data
-     */
-    data class Success<T>(val value: T) : Result<T>()
-
-    /**
-     * Failure data class.
-     *
-     * @param error error
-     */
-    data class Failure<T>(val error: Throwable) : Result<T>()
 
     /**
      * Success flag
@@ -32,38 +16,52 @@ sealed class Result<T> {
     val isFailure: Boolean get() = this is Failure
 
     /**
-     * Get value if result is success.
+     * Get [T] if result is [Success].
+     *
+     * @return [T]
+     */
+    open val data: T? = null
+
+    /**
+     * Get [Throwable] if result is [Failure].
      *
      * @return value
      */
-    fun getValueOrNull(): T? = (this as? Success)?.value
+    open val throwable: Throwable? = null
 
     /**
-     * Get error if result is failure.
+     * Success data class.
      *
-     * @return value
+     * @param data data
      */
-    fun getThrowableOrNull(): Throwable? = (this as? Failure)?.error
+    data class Success<T>(override val data: T) : Result<T>()
 
     /**
-     * This is called if result is success.
+     * Failure data class.
+     *
+     * @param throwable [Throwable]
+     */
+    data class Failure<T>(override val throwable: Throwable) : Result<T>()
+
+    /**
+     * This is called if result is [Success].
      *
      * @param block block
      * @return Result
      */
     inline fun onSuccess(block: (value: T) -> Unit): Result<T> {
-        if (this is Success) block(value)
+        if (this is Success) block(data)
         return this
     }
 
     /**
-     * This is called if result is failure.
+     * This is called if result is [Failure].
      *
      * @param block block
      * @return Result
      */
-    inline fun onFailure(block: (e: Throwable) -> Unit): Result<T> {
-        if (this is Failure) block(error)
+    inline fun onFailure(block: (throwable: Throwable) -> Unit): Result<T> {
+        if (this is Failure) block(throwable)
         return this
     }
 
@@ -76,7 +74,6 @@ sealed class Result<T> {
          * @return Result
          */
         @JvmStatic
-        @CheckResult
         fun <T> success(value: T): Result<T> = Success(value)
 
         /**
@@ -86,25 +83,22 @@ sealed class Result<T> {
          * @return Result
          */
         @JvmStatic
-        @CheckResult
         fun <T> failure(error: Throwable): Result<T> = Failure(error)
+    }
+}
 
-        /**
-         * Calls the specified function [block] and returns its encapsulated result if invocation was successful,
-         * catching and encapsulating any thrown exception as a failure.
-         *
-         * @param T value
-         * @param block block
-         * @return [Result]
-         */
-        @JvmStatic
-        @CheckResult
-        fun <T> create(block: () -> T): Result<T> {
-            return try {
-                success(block())
-            } catch (e: Throwable) {
-                failure(e)
-            }
-        }
+/**
+ * Calls the specified function [block] and returns its encapsulated result if invocation was successful,
+ * catching and encapsulating any thrown exception as a failure.
+ *
+ * @param T value
+ * @param block block
+ * @return [Result]
+ */
+inline fun <T> result(block: () -> T): Result<T> {
+    return try {
+        Result.success(block())
+    } catch (e: Throwable) {
+        Result.failure(e)
     }
 }
