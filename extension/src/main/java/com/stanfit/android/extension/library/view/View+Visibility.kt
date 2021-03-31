@@ -1,19 +1,20 @@
 package com.stanfit.android.extension.library.view
 
 import android.view.View
+import androidx.core.view.isVisible
 
 /**
  * Switch visible or gone
  */
-fun View.toggleVisibleOrGone() {
-    visibility = if (isVisible()) View.GONE else View.VISIBLE
+fun View.toggleGone() {
+    visibility = if (isVisible) View.GONE else View.VISIBLE
 }
 
 /**
  * Switch visible or invisible
  */
-fun View.toggleVisibleOrInvisible() {
-    visibility = if (isVisible()) View.INVISIBLE else View.VISIBLE
+fun View.toggleInvisible() {
+    visibility = if (isVisible) View.INVISIBLE else View.VISIBLE
 }
 
 /**
@@ -35,31 +36,4 @@ fun View.toInvisible() {
  */
 fun View.toGone() {
     visibility = View.GONE
-}
-
-/**
- * Check view is visible.
- *
- * @return Boolean
- */
-fun View.isVisible(): Boolean {
-    return visibility == View.VISIBLE
-}
-
-/**
- * Check view is invisible.
- *
- * @return Boolean
- */
-fun View.isInvisible(): Boolean {
-    return visibility == View.INVISIBLE
-}
-
-/**
- * Check view is gone.
- *
- * @return Boolean
- */
-fun View.isGone(): Boolean {
-    return visibility == View.GONE
 }
