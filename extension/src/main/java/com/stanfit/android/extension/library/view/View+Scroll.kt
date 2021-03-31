@@ -1,13 +1,13 @@
-package com.stanfit.android.extension.library.nestedscrollview
+package com.stanfit.android.extension.library.view
 
-import androidx.core.widget.NestedScrollView
+import android.view.View
 
 /**
  * Judge the top.
  *
  * @return Boolean
  */
-fun NestedScrollView.isTop(): Boolean {
+fun View.isScrollTop(): Boolean {
     return !canScrollVertically(-1)
 }
 
@@ -16,7 +16,7 @@ fun NestedScrollView.isTop(): Boolean {
  *
  * @return Boolean
  */
-fun NestedScrollView.isBottom(): Boolean {
+fun View.isScrollBottom(): Boolean {
     return !canScrollVertically(1)
 }
 
@@ -25,7 +25,7 @@ fun NestedScrollView.isBottom(): Boolean {
  *
  * @return Boolean
  */
-fun NestedScrollView.isLeft(): Boolean {
+fun View.isScrollLeft(): Boolean {
     return !canScrollHorizontally(1)
 }
 
@@ -34,6 +34,6 @@ fun NestedScrollView.isLeft(): Boolean {
  *
  * @return Boolean
  */
-fun NestedScrollView.isRight(): Boolean {
+fun View.isScrollRight(): Boolean {
     return !canScrollHorizontally(-1)
 }
