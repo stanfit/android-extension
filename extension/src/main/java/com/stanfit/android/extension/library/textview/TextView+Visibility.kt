@@ -1,7 +1,7 @@
 package com.stanfit.android.extension.library.textview
 
-import android.view.View
 import android.widget.TextView
+import androidx.core.view.isGone
 
 /**
  * Set text and if text is empty to gone.
@@ -10,9 +10,5 @@ import android.widget.TextView
  */
 fun TextView.setTextEmptyGone(text: String?) {
     this.text = text
-    visibility = if (text.isNullOrEmpty()) {
-        View.GONE
-    } else {
-        View.VISIBLE
-    }
+    isGone = text.isNullOrEmpty()
 }

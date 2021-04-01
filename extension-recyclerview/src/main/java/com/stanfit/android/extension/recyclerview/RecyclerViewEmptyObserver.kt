@@ -1,6 +1,8 @@
 package com.stanfit.android.extension.recyclerview
 
 import android.view.View
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -37,8 +39,8 @@ class RecyclerViewEmptyObserver(
         val adapter = recyclerView.adapter
         if (adapter != null) {
             val isEmpty = adapter.itemCount == 0
-            emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
-            recyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
+            emptyView.isVisible = isEmpty
+            recyclerView.isGone = isEmpty
         }
     }
 }
