@@ -21,7 +21,7 @@ class RecyclerViewPagingListener(
     /**
      * Additional Reading Listener.
      */
-    private var onLoadMoreListener: ((page: Int, total: Int) -> Unit)? = null
+    private var onLoadMoreListener: ((page: Int) -> Unit)? = null
 
     /**
      * Number of pages currently loaded.
@@ -80,7 +80,7 @@ class RecyclerViewPagingListener(
                 }
                 if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
                     pendingCurrentPage++
-                    onLoadMoreListener?.invoke(pendingCurrentPage, totalItemCount)
+                    onLoadMoreListener?.invoke(pendingCurrentPage)
                     loading = true
                 }
             }
@@ -98,7 +98,7 @@ class RecyclerViewPagingListener(
                 }
                 if (!loading && firstVisibleItemPosition < visibleThreshold) {
                     pendingCurrentPage++
-                    onLoadMoreListener?.invoke(pendingCurrentPage, totalItemCount)
+                    onLoadMoreListener?.invoke(pendingCurrentPage)
                     loading = true
                 }
             }
@@ -134,35 +134,17 @@ class RecyclerViewPagingListener(
      *
      * @param block Block syntax to notify current page count, current item count.
      */
-    fun setOnLoadMoreListener(block: (page: Int, total: Int) -> Unit) {
+    fun setOnLoadMoreListener(block: (page: Int) -> Unit) {
         onLoadMoreListener = block
     }
 
-    /**
-     * Start
-     * Load explicitly
-     * Request again when displaying for the first time and when returning to screen.
-     */
-    fun load() {
-        onLoadMoreListener?.invoke(pendingCurrentPage, 0)
+    fun init(currentPage: Int) {
+        pendingCurrentPage = currentPage
+        onLoadMoreListener?.invoke(pendingCurrentPage)
     }
 
-    /**
-     * Reset
-     * Performed during PullToRefresh, etc.
-     */
-    fun reset() {
-        pendingCurrentPage = initialPage
-        pendingTotalItemCount = 0
-    }
-
-    /**
-     * Rollback
-     * Performed when paging communication fails, etc.
-     */
-    fun rollback() {
-        pendingCurrentPage--
-        loading = false
+    fun set(currentPage: Int) {
+        pendingCurrentPage = currentPage
     }
 
     /**
