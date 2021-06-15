@@ -23,8 +23,8 @@ fun Context.string(@StringRes resId: Int): String {
  * @param formats 代入する文字
  * @return String
  */
-fun Context.string(@StringRes resId: Int, vararg formats: String): String {
-    return getString(resId, formats)
+fun Context.string(@StringRes resId: Int, vararg formats: Any?): String {
+    return getString(resId, *formats)
 }
 
 /**
