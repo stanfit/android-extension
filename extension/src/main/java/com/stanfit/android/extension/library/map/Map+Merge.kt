@@ -11,6 +11,8 @@ package com.stanfit.android.extension.library.map
  * @return Merged map
  */
 fun <K, V> Map<K, V>.merge(new: Map<K, V>): Map<K, V> {
+    if (this.isEmpty()) return new
+    if (new.isEmpty()) return this
     val additional: Map<K, V> = new - this.keys
     val removal: Map<K, V> = this - new.keys
     return this - removal.keys + additional

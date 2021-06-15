@@ -11,6 +11,8 @@ package com.stanfit.android.extension.library.list
  * @return Merged list
  */
 fun <T> List<T>.mergeToFirst(new: List<T>): List<T> {
+    if (this.isEmpty()) return new
+    if (new.isEmpty()) return this
     return (new - this) + this - (this - new)
 }
 
@@ -25,5 +27,7 @@ fun <T> List<T>.mergeToFirst(new: List<T>): List<T> {
  * @return Merged list
  */
 fun <T> List<T>.mergeToLast(new: List<T>): List<T> {
+    if (this.isEmpty()) return new
+    if (new.isEmpty()) return this
     return this - (this - new) + (new - this)
 }
